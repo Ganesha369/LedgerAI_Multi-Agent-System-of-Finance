@@ -5,9 +5,11 @@ llama-index
 llama-index-vector-stores-pinecone
 pinecone-client
 scikit-learn
-transformers
 python-dotenv
 redis
 google-generativeai
 pydantic
-torch
+# Use the CPU-only version of torch to save 2GB+ of space
+--find-links https://download.pytorch.org/whl/cpu
+torch --index-url https://download.pytorch.org/whl/cpu
+transformers
