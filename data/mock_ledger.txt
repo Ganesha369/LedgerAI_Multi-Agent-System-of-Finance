@@ -1,0 +1,1 @@
+TRANSACTION REPORT: ID LN-50000 | Amount: 50,000 INR | Status: Verified | Risk: Moderate | Notes: High credit utilization but stable monthly income.
