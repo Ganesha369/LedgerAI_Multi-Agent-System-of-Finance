@@ -105,3 +105,34 @@ async def analyze_financials(request: QueryRequest):
 async def clear_cache():
     semantic_cache.clear()
     return {"message": "Semantic cache cleared."}
+
+# --- ADD THIS FOR STREAMLIT ---
+def run_agent_logic(user_query: str):
+    """
+    Direct entry point for Streamlit to bypass the FastAPI HTTP layer.
+    """
+    # 1. Initialize Graph
+    ledger_graph = create_ledger_graph()
+    
+    # 2. Initial State
+    initial_state = {
+        "query": user_query,
+        "plan": [],
+        "research_results": "",
+        "risk_score": 0.0,
+        "report": "",
+        "security_audit": ""
+    }
+    
+    # 3. Execute Workflow (Synchronously for Streamlit simplicity)
+    final_state = None
+    for output in ledger_graph.stream(initial_state):
+        final_state = output
+        
+    # 4. Extract results
+    if final_state and 'auditor' in final_state:
+        report = final_state['auditor'].get('report', "No report generated.")
+    else:
+        report = "Workflow execution failed to produce a final report."
+        
+    return {"output": report, "full_state": final_state}
